@@ -1,0 +1,24 @@
+{
+  "name": "livestream",
+  "version": "0.0.1",
+  "description": "My custom livestream website",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/josephheinz/Livestream-Website.git"
+  },
+  "keywords": [
+    "live",
+    "livestream",
+    "custom"
+  ],
+  "author": "Joseph Heinz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/josephheinz/Livestream-Website/issues"
+  },
+  "homepage": "https://github.com/josephheinz/Livestream-Website#readme"
+}
