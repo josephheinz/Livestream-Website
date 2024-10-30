@@ -20,5 +20,10 @@
   "bugs": {
     "url": "https://github.com/josephheinz/Livestream-Website/issues"
   },
-  "homepage": "https://github.com/josephheinz/Livestream-Website#readme"
+  "homepage": "https://github.com/josephheinz/Livestream-Website#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "http-proxy-middleware": "^3.0.3"
+  }
 }
