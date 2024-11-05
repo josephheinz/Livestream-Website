@@ -1,29 +1,27 @@
 {
-  "name": "livestream",
-  "version": "0.0.1",
-  "description": "My custom livestream website",
-  "main": "index.js",
-  "scripts": {
-    "test": "test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/josephheinz/Livestream-Website.git"
-  },
-  "keywords": [
-    "live",
-    "livestream",
-    "custom"
-  ],
-  "author": "Joseph Heinz",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/josephheinz/Livestream-Website/issues"
-  },
-  "homepage": "https://github.com/josephheinz/Livestream-Website#readme",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.21.1",
-    "http-proxy-middleware": "^3.0.3"
-  }
+	"name": "livestream-website",
+	"version": "0.0.1",
+	"type": "module",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-auto": "^3.0.0",
+		"@sveltejs/kit": "^2.0.0",
+		"@sveltejs/vite-plugin-svelte": "^4.0.0",
+		"autoprefixer": "^10.4.20",
+		"postcss": "^8.4.47",
+		"svelte": "^5.0.0",
+		"tailwindcss": "^3.4.14",
+		"vite": "^5.0.3"
+	},
+	"dependencies": {
+		"@sveltejs/adapter-node": "^5.2.9",
+		"cors": "^2.8.5",
+		"express": "^4.21.1",
+		"socket.io": "^4.8.1",
+		"url": "^0.11.4"
+	}
 }

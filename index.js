@@ -1,16 +1,22 @@
-const express = require("express");
-const path = require("path");
-const cors = require("cors");
+import express from "express";
+import { Server } from "socket.io";
+import { createServer } from "http";
+import path from "path";
+import cors from "cors";
+import { handler } from "./build/handler.js";
+import { fileURLToPath } from "url";
+
 const app = express();
+const httpServer = createServer(app);
+const io = new Server(httpServer);
+
 
 app.use(cors());
+app.use(handler);
 
-app.get("/", (req, res) => {
-	res.sendFile(path.join(__dirname, "index.html"));
-});
 
-app.use("/hls", express.static(path.join(__dirname, "hls")));
+app.use("/hls", express.static(path.join(path.dirname(fileURLToPath(import.meta.url)), "\\hls")));
 
-app.listen(2541, () => {
+httpServer.listen(2541, () => {
 	console.log("nodejs server running on localhost:2541");
 });

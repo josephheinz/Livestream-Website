@@ -1,31 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Live Stream</title>
     <link href="https://vjs.zencdn.net/7.17.0/video-js.css" rel="stylesheet" />
     <style>
-        .video-js {
-            width: 50%;
-            height: auto;
-	    aspect-ratio:16/9;
-        }
+      .video-js {
+        width: 50%;
+        height: auto;
+        aspect-ratio: 16/9;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <h1>Live Stream</h1>
+    <video
+      id="live-stream"
+      class="video-js vjs-default-skin"
+      controls
+      preload="auto"
+      data-setup="{}"
+    >
+      <source
+        src="https://stream.josephheinz.live/hls/zebra.m3u8"
+        type="application/vnd.apple.mpegurl"
+      />
+      Your browser does not support HTML5 video.
+    </video>
 
-<h1>Live Stream</h1>
-<video
-    id="live-stream"
-    class="video-js vjs-default-skin"
-    controls
-    preload="auto"
-    data-setup="{}">
-    <source src="https://stream.josephheinz.tech/hls/zebra.m3u8" type="application/vnd.apple.mpegurl">
-    Your browser does not support HTML5 video.
-</video>
-
-<script src="https://vjs.zencdn.net/7.17.0/video.min.js"></script>
-</body>
+    <script src="https://vjs.zencdn.net/7.17.0/video.min.js"></script>
+  </body>
 </html>
