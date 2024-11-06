@@ -14,7 +14,7 @@ const io = new Server(httpServer);
 app.use(cors());
 app.use(handler);
 
-
+app.use("/img", express.static(path.join(path.dirname(fileURLToPath(import.meta.url)), "\\static")));
 app.use("/hls", express.static(path.join(path.dirname(fileURLToPath(import.meta.url)), "\\hls")));
 
 httpServer.listen(2541, () => {

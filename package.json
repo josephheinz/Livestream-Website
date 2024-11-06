@@ -24,6 +24,7 @@
 		"@sveltejs/adapter-node": "^5.2.9",
 		"cors": "^2.8.5",
 		"express": "^4.21.1",
+		"pattern.css": "^1.0.0",
 		"pm2": "^5.4.2",
 		"socket.io": "^4.8.1",
 		"url": "^0.11.4",
