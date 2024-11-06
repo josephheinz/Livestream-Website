@@ -28,7 +28,7 @@
 
 <video
     id="my-video"
-    class="video-js vjs-default-skin"
+    class="video-js vjs-default-skin h-full w-full"
     controls
     preload="auto"
     width="640"
