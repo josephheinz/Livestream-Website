@@ -1,7 +1,7 @@
 <style global>
   @import "../app.css";
   @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Sora:wght@100..800&display=swap');
-  *{box-sizing:border-box;user-select: none;}
+  *{box-sizing:border-box;user-select: none;transition:0.2s ease all;}
 </style>
 <script>
     import VideoPlayer from '../VideoPlayer.svelte';
@@ -70,7 +70,7 @@
       <h2 class="font-sora text-3xl font-light">Subtitle</h2>
     </div>
     <div class="flex flex-row gap-4 justify-evenly items-center">
-      <button class="px-8 py-2 bg-[#FF69B4] border-4 border-black shadow-custom rounded-full font-oswald font-bold">Subscribe</button>
+      <button class="px-8 py-2 bg-[#FF69B4] border-4 border-black shadow-custom rounded-full font-oswald font-bold active:shadow-none">Subscribe</button>
       <span class="flex gap-2 w-full mx-auto my-4 items-center">
         <FontAwesomeIcon icon={faUser}/>
         9,999
@@ -80,8 +80,17 @@
   <EmptyGridSquare/>
   <EmptyGridSquare/>
   <EmptyGridSquare/>
-  <div class="border-r-4 border-b-4 border-black">
-    <img src="../../static/Wallet Character.svg" alt="wallet guy">
+  <div class="border-r-4 border-b-4 border-black flex justify-evenly items-center">
+    <div class="flex flex-col w-80 h-4/6 p-8 bg-[#F8D6B3] border-black border-4 rounded-[27px] justify-evenly items-center shadow-custom aspect-[3/4] gap-4">
+      <h1 class="text-5xl font-black font-sora">Donate</h1>
+      <img src="Wallet_Character.svg" alt="wallet guy" class="h-3/6">
+      <button class="px-6 py-3 bg-[#FF69B4] flex justify-center items-center shadow-custom border-4 border-black rounded-[27px] text-3xl font-sora font-regular active:shadow-none">Ko-Fi</button>
+    </div>
+    <div class="flex flex-col w-80 h-4/6 p-8 bg-[#F8D6B3] border-black border-4 rounded-[27px] justify-evenly items-center shadow-custom aspect-[3/4] gap-4">
+      <h1 class="text-5xl font-black font-sora">Socials</h1>
+      <img src="Phone_Character.svg" alt="wallet guy" class="h-3/6">
+      <button class="px-6 py-3 bg-[#FF69B4] flex justify-center items-center shadow-custom border-4 border-black rounded-[27px] text-3xl font-sora font-regular active:shadow-none">Linktree</button>
+    </div>
   </div>
   <EmptyGridSquare/>
   <EmptyGridSquare/>
