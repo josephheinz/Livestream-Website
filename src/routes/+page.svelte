@@ -9,7 +9,7 @@
     import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
     import { faShield, faCrown, faAngleRight, faCircleUser, faUser } from "@fortawesome/free-solid-svg-icons";
 </script>
-
+<title>JosephHeinz.live</title>
 <main class="bg-[#FADF0B] w-screen grid h-screen grid-cols-custom grid-rows-custom overflow-y-scroll overflow-x-hidden">
   <EmptyGridSquare/>
   <!--Title bar-->

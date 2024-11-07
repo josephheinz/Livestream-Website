@@ -27,6 +27,7 @@
         },
     ];
 </script>
+<title>Linktree - JosephHeinz.live</title>
 
 <main class="flex justify-center items-center bg-[#FADF0B] w-screen h-screen">
     <div class="p-8 bg-[#F8D6B3] rounded-[27px] gap-4 border-4 border-black shadow-custom flex flex-col justify-evenly items-center">
