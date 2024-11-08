@@ -4,7 +4,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
-		"build": "vite build",
+		"build": "svelte-kit build",
 		"preview": "vite preview"
 	},
 	"devDependencies": {
@@ -27,6 +27,7 @@
 		"pattern.css": "^1.0.0",
 		"pm2": "^5.4.2",
 		"socket.io": "^4.8.1",
+		"socket.io-client": "^4.8.1",
 		"url": "^0.11.4",
 		"video.js": "^8.19.1"
 	}

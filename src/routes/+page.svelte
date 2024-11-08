@@ -8,6 +8,23 @@
     import EmptyGridSquare from '../EmptyGridSquare.svelte';
     import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
     import { faShield, faCrown, faAngleRight, faCircleUser, faUser } from "@fortawesome/free-solid-svg-icons";
+    import { io } from "socket.io-client";
+    import { onMount } from "svelte";
+
+    let socket;
+    let viewers = 0;
+    onMount(() => {
+
+      socket = io();
+      
+      socket.on("viewer-update", (view) => {
+        updateViewers(view);
+      })
+      
+    })
+    function updateViewers(amt){
+      document.getElementById("viewer-count").innerHTML = `<FontAwesomeIcon icon={faUser}/> ${viewers}`;
+    }
 </script>
 <title>JosephHeinz.live</title>
 <main class="bg-[#FADF0B] w-screen grid h-screen grid-cols-custom grid-rows-custom overflow-y-scroll overflow-x-hidden">
@@ -71,7 +88,7 @@
     </div>
     <div class="flex flex-row gap-4 justify-evenly items-center">
       <button class="px-8 py-2 bg-[#FF69B4] border-4 border-black shadow-custom rounded-full font-oswald font-bold active:shadow-none">Subscribe</button>
-      <span class="flex gap-2 w-full mx-auto my-4 items-center">
+      <span id="viewer-count" class="flex gap-2 w-full mx-auto my-4 items-center">
         <FontAwesomeIcon icon={faUser}/>
         9,999
       </span>
