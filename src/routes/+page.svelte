@@ -14,21 +14,34 @@
     let socket;
     let viewers = 0;
     onMount(() => {
+      if (typeof window !== "undefined") {
+
 
       socket = io();
       
       socket.on("viewer-update", (view) => {
+        console.log("got a viewer update")
+        viewers = view;
         updateViewers(view);
       })
 
-      socket.on("eventFromServer", (message) => {
-        console.log(message);
-      })
-      
+      //socket.on("eventFromServer", (message) => {
+        //console.log(message);
+      //})
+      }      
     })
+
+    $: {
+      if (viewers!== undefined) {
+        updateViewers(viewers);
+      }
+    }
+
     function updateViewers(amt){
-      console.log(amt)
-      document.getElementById("viewer-count").innerHTML = `${amt}`;
+      if (typeof document !== "undefined") {
+        console.log(amt)
+        document.getElementById("viewer-count").innerText = amt;
+      }
     }
 </script>
 <title>JosephHeinz.live</title>
@@ -95,7 +108,7 @@
       <button class="px-8 py-2 bg-[#FF69B4] border-4 border-black shadow-custom rounded-full font-oswald font-bold active:shadow-none">Subscribe</button>
       <span class="flex gap-2 w-full mx-auto my-4 items-center">
         <FontAwesomeIcon icon={faUser}/>
-        <span id="viewer-count"> 9,999</span>
+        <span id="viewer-count">{viewers}</span>
       </span>
     </div>
   </div>

@@ -15,8 +15,8 @@ export const webSocketServer = {
 	    io.emit("viewer-update", viewers);
 
 	    socket.on("disconnect", () => {
-		    console.log("User disconnected", viewers);
 		    viewers--;
+        console.log("User disconnected", viewers);
 		    io.emit("viewer-update", viewers);
 	    });
     });
