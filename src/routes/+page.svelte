@@ -20,10 +20,15 @@
       socket.on("viewer-update", (view) => {
         updateViewers(view);
       })
+
+      socket.on("eventFromServer", (message) => {
+        console.log(message);
+      })
       
     })
     function updateViewers(amt){
-      document.getElementById("viewer-count").innerHTML = `<FontAwesomeIcon icon={faUser}/> ${viewers}`;
+      console.log(amt)
+      document.getElementById("viewer-count").innerHTML = `${amt}`;
     }
 </script>
 <title>JosephHeinz.live</title>
@@ -88,9 +93,9 @@
     </div>
     <div class="flex flex-row gap-4 justify-evenly items-center">
       <button class="px-8 py-2 bg-[#FF69B4] border-4 border-black shadow-custom rounded-full font-oswald font-bold active:shadow-none">Subscribe</button>
-      <span id="viewer-count" class="flex gap-2 w-full mx-auto my-4 items-center">
+      <span class="flex gap-2 w-full mx-auto my-4 items-center">
         <FontAwesomeIcon icon={faUser}/>
-        9,999
+        <span id="viewer-count"> 9,999</span>
       </span>
     </div>
   </div>

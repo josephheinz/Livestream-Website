@@ -11,10 +11,8 @@ const app = express();
 const httpServer = createServer(app);
 const io = new SocketIOServer(httpServer);
 
-let viewers = 0;
 
 app.use(cors());
-app.use(handler);
 
 app.use("/img", express.static(path.join(path.dirname(fileURLToPath(import.meta.url)), "\\static")));
 app.use("/hls", express.static(path.join(path.dirname(fileURLToPath(import.meta.url)), "\\hls")));
@@ -32,11 +30,7 @@ io.on('connection', (socket) => {
 	});
 });
 
-app.use('/socket.io/', (req, res, next) => {
-    io.engine.handle(req, res);  // Let Socket.IO handle the /socket.io/ requests
-	next();
-});
-
+app.use(handler);
 app.all('*', (req, res) => {
     return handler(req, res); // Let SvelteKit handle non-Socket.IO requests
 });
