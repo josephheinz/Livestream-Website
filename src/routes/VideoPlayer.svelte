@@ -41,6 +41,6 @@
 </video>
 
 <style global>
-    @import "./app.css"; 
+    @import "../app.css"; 
 </style>
 

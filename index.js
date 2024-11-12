@@ -1,8 +1,8 @@
 import express from "express";
-import { Server as SocketIOServer} from "socket.io";
+import { Server as SocketIOServer } from "socket.io";
 import { createServer } from "http";
 import path from "path";
-import cors from "cors";
+//import cors from "cors";
 import { handler } from "./build/handler.js";
 import { fileURLToPath } from "url";
 
@@ -14,12 +14,16 @@ let viewers = 0;
 
 io.on('connection', (socket) => {
 	viewers++;
-  console.log('User connected', viewers);
+	console.log('User connected', socket.id);
 	io.emit("viewer-update", viewers);
 
-	socket.on("disconnect", () => {
+	socket.on("message", (message) => {
+		io.emit("message", message);
+	});
+
+	socket.on("disconnecting", () => {
 		viewers--;
-    console.log("User disconnected", viewers);
+		console.log("User disconnected", socket.id);
 		io.emit("viewer-update", viewers);
 	});
 });
