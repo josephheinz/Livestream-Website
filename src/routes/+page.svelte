@@ -1,6 +1,7 @@
 <script>
-  import VideoPlayer from "../VideoPlayer.svelte";
-  import EmptyGridSquare from "../EmptyGridSquare.svelte";
+  import VideoPlayer from "./VideoPlayer.svelte";
+  import EmptyGridSquare from "./EmptyGridSquare.svelte";
+  import Message from "./Message.svelte";
   import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
   import {
     faShield,
@@ -12,18 +13,42 @@
   import { io } from "socket.io-client";
   import { onMount } from "svelte";
 
+  let messages = [{ Username: Math.random(), Contents: "agdfghst" }];
+  function addMessage() {
+    messages.push({ Username: Math.random(), Contents: "agdfghst" });
+    alert("Aesd")
+    console.log(messages);
+  }
+
   let socket;
   let viewers = 0;
   onMount(() => {
-    socket = io();
+    if (typeof window !== "undefined") {
+      socket = io();
 
-    socket.on("viewer-update", (view) => {
-      viewers = view;
-    });
+      socket.on("viewer-update", (view) => {
+        console.log("got a viewer update");
+        viewers = view;
+        updateViewers(view);
+      });
+
+      //socket.on("eventFromServer", (message) => {
+      //console.log(message);
+      //})
+    }
   });
+
+  $: {
+    if (viewers !== undefined) {
+      updateViewers(viewers);
+    }
+  }
+
   function updateViewers(amt) {
-    document.getElementById("viewer-count").innerHTML =
-      `<FontAwesomeIcon icon={faUser}/> ${viewers}`;
+    if (typeof document !== "undefined") {
+      console.log(amt);
+      document.getElementById("viewer-count").innerText = amt;
+    }
   }
 </script>
 
@@ -53,45 +78,50 @@
       <input
         type="text"
         placeholder="Placeholder text..."
-        class="grow focus:outline-none px-2"
+        class="grow outline-none focus:outline-none px-2"
         maxlength="200"
       />
       <button
         class="p-2 border-4 border-black bg-[#FF69B4] aspect-square flex justify-center items-center rounded-full font-black"
       >
-        <FontAwesomeIcon icon={faAngleRight} />
+        <FontAwesomeIcon icon={faAngleRight} on:click={addMessage}/>
       </button>
     </div>
     <ul
       id="chat-list"
       class="flex flex-col items-start w-full grow justify-end"
     >
-      <li class="w-full bg-[#7DF9FF] flex gap-2">
-        <span class="mx-2 my-1">
-          <strong>Username: </strong>
-          <span>Highlighted message words chat words other</span>
-        </span>
-      </li>
-      <li class="mx-2 my-1 flex gap-2 items-start">
-        <span>
-          <strong>Username: </strong>
-          <span>Message contents words other words chat</span>
-        </span>
-      </li>
-      <li class="mx-2 my-1 flex gap-2 items-start">
-        <span>
-          <FontAwesomeIcon icon={faShield} class="text-md text-[#7957FF]" />
-          <strong>Username: </strong>
-          <span>Message contents words other words chat</span>
-        </span>
-      </li>
-      <li class="mx-2 my-1 flex gap-2 items-start">
-        <span>
-          <FontAwesomeIcon icon={faCrown} class="text-md text-[#2FFF2F]" />
-          <strong>Username: </strong>
-          <span>Message contents words other words chat</span>
-        </span>
-      </li>
+      {#each messages as message1}
+        <Message message={message1} />
+      {/each}
+      <!--
+        <li class="w-full bg-[#7DF9FF] flex gap-2">
+          <span class="mx-2 my-1">
+            <strong>Username: </strong>
+            <span>Highlighted message words chat words other</span>
+          </span>
+        </li>
+        <li class="mx-2 my-1 flex gap-2 items-start">
+          <span>
+            <strong>Username: </strong>
+            <span>Message contents words other words chat</span>
+          </span>
+        </li>
+        <li class="mx-2 my-1 flex gap-2 items-start">
+          <span>
+            <FontAwesomeIcon icon={faShield} class="text-md text-[#7957FF]" />
+            <strong>Username: </strong>
+            <span>Message contents words other words chat</span>
+          </span>
+        </li>
+        <li class="mx-2 my-1 flex gap-2 items-start">
+          <span>
+            <FontAwesomeIcon icon={faCrown} class="text-md text-[#2FFF2F]" />
+            <strong>Username: </strong>
+            <span>Message contents words other words chat</span>
+          </span>
+        </li>
+        -->
     </ul>
     <div
       class="w-[90%] bg-[#FF69B4] border-4 border-black p-2 rounded-full shadow-custom gap-2 flex items-center"
@@ -114,12 +144,9 @@
         class="px-8 py-2 bg-[#FF69B4] border-4 border-black shadow-custom rounded-full font-oswald font-bold active:shadow-none"
         >Subscribe</button
       >
-      <span
-        id="viewer-count"
-        class="flex gap-2 w-full mx-auto my-4 items-center"
-      >
+      <span class="flex gap-2 w-full mx-auto my-4 items-center">
         <FontAwesomeIcon icon={faUser} />
-        <span> {viewers} </span>
+        <span id="viewer-count">{viewers}</span>
       </span>
     </div>
   </div>
