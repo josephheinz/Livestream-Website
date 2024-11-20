@@ -5,7 +5,6 @@ import path from "path";
 import cors from "cors";
 import { handler } from "./build/handler.js";
 import { fileURLToPath } from "url";
-import { disconnect } from "process";
 
 const app = express();
 const httpServer = createServer(app);
