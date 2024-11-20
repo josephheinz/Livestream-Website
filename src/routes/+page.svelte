@@ -79,9 +79,9 @@
   <EmptyGridSquare />
   <EmptyGridSquare />
   <EmptyGridSquare />
-  <div class="border-black border-r-4 border-b-4 pattern-grid-md">
+  <EmptyGridSquare>
     <VideoPlayer />
-  </div>
+  </EmptyGridSquare>
   <div
     class="bg-white border-b-4 border-r-4 border-black py-2 flex flex-col-reverse items-center py-4 gap-4 font-oswald"
   >
@@ -104,7 +104,7 @@
     </div>
     <ul
       id="chat-list"
-      class="flex flex-col items-start w-full grow justify-end"
+      class="flex flex-col items-start w-full grow justify-end max-h-[85%] overflow-y-scroll"
     >
       {#each messages as message1}
         <Message message={message1} />

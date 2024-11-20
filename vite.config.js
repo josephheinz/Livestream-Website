@@ -16,7 +16,7 @@ export const webSocketServer = {
 
       socket.on("message", (message) => {
         io.emit("message", message);
-        //console.log(message)
+        console.log(message)
       });
 
       socket.on("disconnecting", () => {

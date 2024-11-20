@@ -28,5 +28,10 @@
       <strong>{message.Username}: </strong>
       <span>{message.Contents}</span>
     </span>
+  {:else}
+    <span>
+      <strong>{message.Username}: </strong>
+      <span>{message.Contents}</span>
+    </span>
   {/if}
 </li>
