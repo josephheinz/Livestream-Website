@@ -13,18 +13,22 @@
   import { io } from "socket.io-client";
   import { onMount } from "svelte";
 
-  let messages = [{ Username: Math.random(), Contents: "agdfghst" }];
-  function addMessage() {
-    messages.push({ Username: Math.random(), Contents: "agdfghst" });
-    alert("Aesd")
-    console.log(messages);
+  let messages = $state([]);
+  function addMessage(message) {
+    try {
+      messages.push(message);
+    } catch (err) {
+      throw err;
+    }
   }
 
   let socket;
   let viewers = 0;
+  let username = crypto.randomUUID().substring(0, 4);
   onMount(() => {
     if (typeof window !== "undefined") {
       socket = io();
+      console.log(username);
 
       socket.on("viewer-update", (view) => {
         console.log("got a viewer update");
@@ -32,23 +36,32 @@
         updateViewers(view);
       });
 
-      //socket.on("eventFromServer", (message) => {
-      //console.log(message);
-      //})
+      socket.on("message", (message) => {
+        addMessage(message);
+      });
     }
   });
-
-  $: {
-    if (viewers !== undefined) {
-      updateViewers(viewers);
-    }
-  }
 
   function updateViewers(amt) {
     if (typeof document !== "undefined") {
       console.log(amt);
       document.getElementById("viewer-count").innerText = amt;
     }
+  }
+
+  function sendMessage() {
+    const inputDOM = document.getElementById("chat-input");
+    let message = {
+      Username: username,
+      Contents: inputDOM.value,
+      Role: "Viewer",
+    };
+    console.log(message);
+    if (message.Contents.trim() === "") {
+      throw new Error("Message contents cannot be empty");
+    }
+    socket.emit("message", message);
+    inputDOM.value = "";
   }
 </script>
 
@@ -80,11 +93,13 @@
         placeholder="Placeholder text..."
         class="grow outline-none focus:outline-none px-2"
         maxlength="200"
+        id="chat-input"
       />
       <button
-        class="p-2 border-4 border-black bg-[#FF69B4] aspect-square flex justify-center items-center rounded-full font-black"
+        onclick={sendMessage}
+        class="p-2 border-4 border-black bg-[#FF69B4] aspect-square flex justify-center items-center rounded-full font-black cursor-pointer"
       >
-        <FontAwesomeIcon icon={faAngleRight} on:click={addMessage}/>
+        <FontAwesomeIcon icon={faAngleRight} />
       </button>
     </div>
     <ul
@@ -121,7 +136,7 @@
             <span>Message contents words other words chat</span>
           </span>
         </li>
-        -->
+      -->
     </ul>
     <div
       class="w-[90%] bg-[#FF69B4] border-4 border-black p-2 rounded-full shadow-custom gap-2 flex items-center"
