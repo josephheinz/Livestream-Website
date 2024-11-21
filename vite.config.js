@@ -29,5 +29,14 @@ export const webSocketServer = {
 }
 
 export default defineConfig({
-  plugins: [sveltekit(), webSocketServer]
+  plugins: [sveltekit(), webSocketServer],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5173',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      }
+    }
+  }
 });
