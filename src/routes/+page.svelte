@@ -83,10 +83,10 @@
     <VideoPlayer />
   </EmptyGridSquare>
   <div
-    class="bg-white border-b-4 border-r-4 border-black py-2 flex flex-col-reverse items-center py-4 gap-4 font-oswald"
+    class="relative bg-white border-b-4 border-r-4 border-black py-2 flex flex-col-reverse items-center py-4 gap-4 font-oswald overflow-y-scroll"
   >
     <div
-      class="w-[90%] border-black border-4 p-2 flex justify-between rounded-full shadow-custom gap-2"
+      class="w-[90%] border-black border-4 p-2 flex justify-between rounded-full shadow-custom gap-2 sticky bottom-0 right-[5%] left-[5%] bg-white"
     >
       <input
         type="text"
@@ -104,7 +104,7 @@
     </div>
     <ul
       id="chat-list"
-      class="flex flex-col items-start w-full grow justify-end max-h-[85%] overflow-y-scroll"
+      class="flex flex-col items-start w-full grow justify-end"
     >
       {#each messages as message1}
         <Message message={message1} />
@@ -139,7 +139,7 @@
       -->
     </ul>
     <div
-      class="w-[90%] bg-[#FF69B4] border-4 border-black p-2 rounded-full shadow-custom gap-2 flex items-center"
+      class="w-[90%] bg-[#FF69B4] border-4 border-black p-2 rounded-full shadow-custom gap-2 flex items-center sticky top-0 right-[5%] left-[5%]"
     >
       <FontAwesomeIcon icon={faCircleUser} />
       <strong>Username - $5.00</strong>
@@ -201,7 +201,6 @@
   @import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Sora:wght@100..800&display=swap");
   * {
     box-sizing: border-box;
-    user-select: none;
     transition: 0.2s ease all;
   }
 </style>
