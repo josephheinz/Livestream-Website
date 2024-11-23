@@ -2,14 +2,16 @@
   import VideoPlayer from "./VideoPlayer.svelte";
   import EmptyGridSquare from "./EmptyGridSquare.svelte";
   import Message from "./Message.svelte";
+  import SubscribeButton from "./SubscribeButton.svelte";
   import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
   import {
     faShield,
     faCrown,
     faAngleRight,
-    faCircleUser,
-    faUser,
   } from "@fortawesome/free-solid-svg-icons";
+  import {
+    faCircleUser
+  } from "@fortawesome/free-regular-svg-icons";
   import { io } from "socket.io-client";
   import { onMount } from "svelte";
 
@@ -141,7 +143,7 @@
     <div
       class="w-[90%] bg-[#FF69B4] border-4 border-black p-2 rounded-full shadow-custom gap-2 flex items-center sticky top-0 right-[5%] left-[5%]"
     >
-      <FontAwesomeIcon icon={faCircleUser} />
+      <FontAwesomeIcon icon={faCircleUser} class="text-xl"/>
       <strong>Username - $5.00</strong>
     </div>
   </div>
@@ -154,14 +156,13 @@
       <h1 class="font-sora text-5xl font-black">Title</h1>
       <h2 class="font-sora text-3xl font-light">Subtitle</h2>
     </div>
-    <div class="flex flex-row gap-4 justify-evenly items-center">
-      <button
-        class="px-8 py-2 bg-[#FF69B4] border-4 border-black shadow-custom rounded-full font-oswald font-bold active:shadow-none"
-        >Subscribe</button
-      >
-      <span class="flex gap-2 w-full mx-auto my-4 items-center">
-        <FontAwesomeIcon icon={faUser} />
-        <span id="viewer-count">{viewers}</span>
+    <div class="flex flex-col gap-2 justify-evenly items-center">
+     <SubscribeButton/> 
+      <span class="flex gap-2 w-full mx-auto my-4 justify-center items-center h-full">
+        <FontAwesomeIcon icon={faCircleUser} class="text-xl" />
+        <span>
+        <span id="viewer-count">{viewers} </span> <span> {#if viewers > 1}viewers{:else}viewer{/if}</span>
+          </span>
       </span>
     </div>
   </div>
