@@ -30,7 +30,7 @@
     </span>
   {:else}
     <span class="max-w-full">
-      <strong>{message.Username}: </strong>
+      <strong style="color:{message.ChatColor};">{message.Username}: </strong>
       <span class="overflow-hidden text-wrap">{message.Contents}</span>
     </span>
   {/if}

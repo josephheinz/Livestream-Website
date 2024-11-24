@@ -3,6 +3,7 @@
   import EmptyGridSquare from "./EmptyGridSquare.svelte";
   import Message from "./Message.svelte";
   import SubscribeButton from "./SubscribeButton.svelte";
+  import LoginModal from "./LoginModal.svelte";
   import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
   import {
     faShield,
@@ -14,6 +15,8 @@
   } from "@fortawesome/free-regular-svg-icons";
   import { io } from "socket.io-client";
   import { onMount } from "svelte";
+
+  let loginModal;
 
   let messages = $state([]);
   function addMessage(message) {
@@ -51,12 +54,15 @@
     }
   }
 
+  const chatColor = `rgb(${Math.round(Math.random()*255)},${Math.round(Math.random()*255)},${Math.round(Math.random()*255)})`;
+  const chatRole = "Viewer";
   function sendMessage() {
     const inputDOM = document.getElementById("chat-input");
     let message = {
       Username: username,
       Contents: inputDOM.value,
-      Role: "Viewer",
+      Role: chatRole,
+      ChatColor: chatColor,
     };
     console.log(message);
     if (message.Contents.trim() === "") {
@@ -78,7 +84,23 @@
   >
     <h1 class="text-5xl font-black font-sora">JosephHeinz.live</h1>
   </div>
-  <EmptyGridSquare />
+  <EmptyGridSquare>
+    {#if username}
+    <div class="w-full h-full flex justify-end items-start p-4 gap-2">
+      <span class="text-md font-700 font-sora text-right">
+          {username}
+          <br>
+          {chatRole}
+      </span>
+      <FontAwesomeIcon icon={faCircleUser} class="text-5xl"/>
+    </div>
+    {:else}
+    <div class="w-full h-3/6 flex justify-left items-start py-2 px-4 gap-4">
+      <button class="underline" onclick={loginModal.openLoginModal}>Login</button>
+      <button class="underline" onclick={loginModal.openSignUpModal}>Sign Up</button>
+    </div>
+    {/if}
+  </EmptyGridSquare>
   <EmptyGridSquare />
   <EmptyGridSquare />
   <EmptyGridSquare>
@@ -88,7 +110,7 @@
     class="relative bg-white border-b-4 border-r-4 border-black py-2 flex flex-col-reverse items-center py-4 gap-4 font-oswald overflow-y-scroll"
   >
     <div
-      class="w-[90%] border-black border-4 p-2 flex justify-between rounded-full shadow-custom gap-2 sticky bottom-0 right-[5%] left-[5%] bg-white"
+      class="w-[90%] border-black border-4 p-2 flex justify-between shadow-custom gap-2 sticky bottom-0 right-[5%] left-[5%] bg-white"
     >
       <input
         type="text"
@@ -141,7 +163,7 @@
       -->
     </ul>
     <div
-      class="w-[90%] bg-[#FF69B4] border-4 border-black p-2 rounded-full shadow-custom gap-2 flex items-center sticky top-0 right-[5%] left-[5%]"
+      class="w-[90%] bg-[#FF69B4] border-4 border-black p-2 shadow-custom gap-2 flex items-center sticky top-0 right-[5%] left-[5%]"
     >
       <FontAwesomeIcon icon={faCircleUser} class="text-xl"/>
       <strong>Username - $5.00</strong>
@@ -195,6 +217,7 @@
   </div>
   <EmptyGridSquare />
   <EmptyGridSquare />
+  <LoginModal bind:this={loginModal}/>
 </main>
 
 <style global>
