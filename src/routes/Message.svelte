@@ -10,7 +10,7 @@
   } from "@fortawesome/free-solid-svg-icons";
 </script>
 
-<li class="my-1 px-2 flex gap-2 items-start w-full overflow-hidden text-wrap">
+<li class="my-1 px-2 flex gap-2 flex-shrink-0 items-start w-full overflow-hidden break-all">
   {#if message.Role == "Owner"}
     <span class="max-w-full">
       <FontAwesomeIcon icon={faCrown} class="text-md text-[#2FFF2F]" />

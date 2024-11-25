@@ -10,9 +10,7 @@
     faCrown,
     faAngleRight,
   } from "@fortawesome/free-solid-svg-icons";
-  import {
-    faCircleUser
-  } from "@fortawesome/free-regular-svg-icons";
+  import { faCircleUser } from "@fortawesome/free-regular-svg-icons";
   import { io } from "socket.io-client";
   import { onMount } from "svelte";
 
@@ -54,7 +52,7 @@
     }
   }
 
-  const chatColor = `rgb(${Math.round(Math.random()*255)},${Math.round(Math.random()*255)},${Math.round(Math.random()*255)})`;
+  const chatColor = `rgb(${Math.round(Math.random() * 255)},${Math.round(Math.random() * 255)},${Math.round(Math.random() * 255)})`;
   const chatRole = "Viewer";
   function sendMessage() {
     const inputDOM = document.getElementById("chat-input");
@@ -86,19 +84,23 @@
   </div>
   <EmptyGridSquare>
     {#if username}
-    <div class="w-full h-full flex justify-end items-start p-4 gap-2">
-      <span class="text-md font-700 font-sora text-right">
+      <div class="w-full h-full flex justify-end items-start p-4 gap-2">
+        <span class="text-md font-700 font-sora text-right">
           {username}
-          <br>
+          <br />
           {chatRole}
-      </span>
-      <FontAwesomeIcon icon={faCircleUser} class="text-5xl"/>
-    </div>
+        </span>
+        <FontAwesomeIcon icon={faCircleUser} class="text-5xl" />
+      </div>
     {:else}
-    <div class="w-full h-3/6 flex justify-left items-start py-2 px-4 gap-4">
-      <button class="underline" onclick={loginModal.openLoginModal}>Login</button>
-      <button class="underline" onclick={loginModal.openSignUpModal}>Sign Up</button>
-    </div>
+      <div class="w-full h-3/6 flex justify-left items-start py-2 px-4 gap-4">
+        <button class="underline" onclick={loginModal.openLoginModal}
+          >Login</button
+        >
+        <button class="underline" onclick={loginModal.openSignUpModal}
+          >Sign Up</button
+        >
+      </div>
     {/if}
   </EmptyGridSquare>
   <EmptyGridSquare />
@@ -107,66 +109,47 @@
     <VideoPlayer />
   </EmptyGridSquare>
   <div
-    class="relative bg-white border-b-4 border-r-4 border-black py-2 flex flex-col-reverse items-center py-4 gap-4 font-oswald overflow-y-scroll"
+    class="relative bg-white border-b-4 border-r-4 border-black flex flex-col items-center py-4 gap-4 font-oswald"
   >
-    <div
-      class="w-[90%] border-black border-4 p-2 flex justify-between shadow-custom gap-2 sticky bottom-0 right-[5%] left-[5%] bg-white"
-    >
-      <input
-        type="text"
-        placeholder="Placeholder text..."
-        class="grow outline-none focus:outline-none px-2"
-        maxlength="200"
-        id="chat-input"
-      />
-      <button
-        onclick={sendMessage}
-        class="p-2 border-4 border-black bg-[#FF69B4] aspect-square flex justify-center items-center rounded-full font-black cursor-pointer"
+    <!--wrapper for toasts-->
+    <div class="h-1/10 w-full flex justify-center items-center">
+      <div
+        class="w-[90%] bg-[#FF69B4] border-4 border-black p-2 shadow-custom gap-2 flex items-center"
       >
-        <FontAwesomeIcon icon={faAngleRight} />
-      </button>
+        <FontAwesomeIcon icon={faCircleUser} class="text-xl" />
+        <strong>Username - $5.00</strong>
+      </div>
     </div>
-    <ul
-      id="chat-list"
-      class="flex flex-col items-start w-full grow justify-end"
-    >
-      {#each messages as message1}
-        <Message message={message1} />
-      {/each}
-      <!--
-        <li class="w-full bg-[#7DF9FF] flex gap-2">
-          <span class="mx-2 my-1">
-            <strong>Username: </strong>
-            <span>Highlighted message words chat words other</span>
-          </span>
-        </li>
-        <li class="mx-2 my-1 flex gap-2 items-start">
-          <span>
-            <strong>Username: </strong>
-            <span>Message contents words other words chat</span>
-          </span>
-        </li>
-        <li class="mx-2 my-1 flex gap-2 items-start">
-          <span>
-            <FontAwesomeIcon icon={faShield} class="text-md text-[#7957FF]" />
-            <strong>Username: </strong>
-            <span>Message contents words other words chat</span>
-          </span>
-        </li>
-        <li class="mx-2 my-1 flex gap-2 items-start">
-          <span>
-            <FontAwesomeIcon icon={faCrown} class="text-md text-[#2FFF2F]" />
-            <strong>Username: </strong>
-            <span>Message contents words other words chat</span>
-          </span>
-        </li>
-      -->
-    </ul>
-    <div
-      class="w-[90%] bg-[#FF69B4] border-4 border-black p-2 shadow-custom gap-2 flex items-center sticky top-0 right-[5%] left-[5%]"
-    >
-      <FontAwesomeIcon icon={faCircleUser} class="text-xl"/>
-      <strong>Username - $5.00</strong>
+
+    <div class="h-4/5 max-h-4/5 overflow-y-hidden w-full relative">
+      <ul
+        id="chat-list"
+        class="absolute bottom-0 flex flex-col-reverse items-start w-full h-full grow justify-start overflow-y-scroll"
+      >
+        {#each messages as message1}
+          <Message message={message1} />
+        {/each}
+      </ul>
+    </div>
+    <!--wrapper for chat input-->
+    <div class="h-1/10 w-full flex justify-center items-center">
+      <div
+        class="w-[90%] border-black border-4 p-2 flex justify-between shadow-custom gap-2"
+      >
+        <input
+          type="text"
+          placeholder="Placeholder text..."
+          class="grow outline-none focus:outline-none px-2"
+          maxlength="200"
+          id="chat-input"
+        />
+        <button
+          onclick={sendMessage}
+          class="p-2 border-4 border-black bg-[#FF69B4] aspect-square flex justify-center items-center rounded-full font-black cursor-pointer"
+        >
+          <FontAwesomeIcon icon={faAngleRight} />
+        </button>
+      </div>
     </div>
   </div>
   <EmptyGridSquare />
@@ -179,12 +162,17 @@
       <h2 class="font-sora text-3xl font-light">Subtitle</h2>
     </div>
     <div class="flex flex-col gap-2 justify-evenly items-center">
-     <SubscribeButton/> 
-      <span class="flex gap-2 w-full mx-auto my-4 justify-center items-center h-full">
+      <SubscribeButton />
+      <span
+        class="flex gap-2 w-full mx-auto my-4 justify-center items-center h-full"
+      >
         <FontAwesomeIcon icon={faCircleUser} class="text-xl" />
         <span>
-        <span id="viewer-count">{viewers} </span> <span> {#if viewers > 1}viewers{:else}viewer{/if}</span>
-          </span>
+          <span id="viewer-count">{viewers} </span>
+          <span>
+            {#if viewers > 1}viewers{:else}viewer{/if}</span
+          >
+        </span>
       </span>
     </div>
   </div>
@@ -217,7 +205,7 @@
   </div>
   <EmptyGridSquare />
   <EmptyGridSquare />
-  <LoginModal bind:this={loginModal}/>
+  <LoginModal bind:this={loginModal} />
 </main>
 
 <style global>
@@ -226,5 +214,8 @@
   * {
     box-sizing: border-box;
     transition: 0.2s ease all;
+  }
+  *.overflow-scroll {
+
   }
 </style>
