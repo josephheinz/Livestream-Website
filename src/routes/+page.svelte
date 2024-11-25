@@ -15,6 +15,7 @@
   import { onMount } from "svelte";
 
   let loginModal;
+  let chatList;
 
   let messages = $state([]);
   function addMessage(message) {
@@ -69,6 +70,12 @@
     socket.emit("message", message);
     inputDOM.value = "";
   }
+  $effect(() => {
+    // Check if messages have been updated
+    if (messages.length > 0) {
+      chatList.scrollTop = chatList.scrollHeight;
+    }
+  });
 </script>
 
 <title>JosephHeinz.live</title>
@@ -124,7 +131,8 @@
     <div class="h-4/5 max-h-4/5 overflow-y-hidden w-full relative">
       <ul
         id="chat-list"
-        class="absolute bottom-0 flex flex-col-reverse items-start w-full h-full grow justify-start overflow-y-scroll"
+        class="absolute bottom-0 flex flex-col items-start w-full h-full overflow-y-scroll"
+        bind:this={chatList}
       >
         {#each messages as message1}
           <Message message={message1} />
@@ -216,6 +224,5 @@
     transition: 0.2s ease all;
   }
   *.overflow-scroll {
-
   }
 </style>
