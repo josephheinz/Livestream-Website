@@ -31,7 +31,7 @@
   {:else}
     <span class="max-w-full">
       <strong>{message.Username}: </strong>
-      <span class="overflow-hidden text-wrap">{message.Contents}</span>
+      <span class="overflow-hidden text-wrap break-all">{message.Contents}</span>
     </span>
   {/if}
 </li>
