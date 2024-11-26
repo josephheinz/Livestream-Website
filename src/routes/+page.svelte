@@ -131,7 +131,7 @@
     <div class="h-4/5 max-h-4/5 overflow-y-hidden w-full relative">
       <ul
         id="chat-list"
-        class="absolute bottom-0 flex flex-col items-start w-full h-full overflow-y-scroll"
+        class="absolute bottom-0 flex flex-col items-end w-full h-full overflow-y-scroll"
         bind:this={chatList}
       >
         {#each messages as message1}
@@ -155,7 +155,7 @@
           onclick={sendMessage}
           class="p-2 border-4 border-black bg-[#FF69B4] aspect-square flex justify-center items-center rounded-full font-black cursor-pointer"
         >
-          <FontAwesomeIcon icon={faAngleRight} />
+          <FontAwesomeIcon icon={faAngleRight} id="chat-button"/>
         </button>
       </div>
     </div>
