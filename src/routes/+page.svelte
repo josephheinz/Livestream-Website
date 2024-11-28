@@ -4,6 +4,7 @@
   import Message from "./Message.svelte";
   import SubscribeButton from "./SubscribeButton.svelte";
   import LoginModal from "./LoginModal.svelte";
+  import ChatToast from "./ChatToast.svelte";
   import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
   import {
     faShield,
@@ -50,6 +51,13 @@
     if (typeof document !== "undefined") {
       console.log(amt);
       document.getElementById("viewer-count").innerText = amt;
+    }
+  }
+
+  function enterChatMessage(event) {
+    switch(event.key){
+      case "Enter":
+        sendMessage();
     }
   }
 
@@ -119,15 +127,7 @@
     class="relative bg-white border-b-4 border-r-4 border-black flex flex-col items-center py-4 gap-4 font-oswald"
   >
     <!--wrapper for toasts-->
-    <div class="h-1/10 w-full flex justify-center items-center">
-      <div
-        class="w-[90%] bg-[#FF69B4] border-4 border-black p-2 shadow-custom gap-2 flex items-center"
-      >
-        <FontAwesomeIcon icon={faCircleUser} class="text-xl" />
-        <strong>Username - $5.00</strong>
-      </div>
-    </div>
-
+    <ChatToast/> 
     <div class="h-4/5 max-h-4/5 overflow-y-hidden w-full relative">
       <ul
         id="chat-list"
@@ -150,6 +150,7 @@
           class="grow outline-none focus:outline-none px-2"
           maxlength="200"
           id="chat-input"
+          onkeyup={enterChatMessage}
         />
         <button
           onclick={sendMessage}
