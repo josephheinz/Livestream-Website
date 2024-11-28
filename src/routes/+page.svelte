@@ -5,6 +5,7 @@
   import SubscribeButton from "./SubscribeButton.svelte";
   import LoginModal from "./LoginModal.svelte";
   import ChatToast from "./ChatToast.svelte";
+  import StreamInfoBox from "./StreamInfoBox.svelte";
   import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
   import {
     faShield,
@@ -191,26 +192,8 @@
   <div
     class="border-r-4 border-b-4 border-black flex justify-evenly items-center"
   >
-    <div
-      class="flex flex-col w-80 h-4/6 p-8 bg-[#F8D6B3] border-black border-4 rounded-[27px] justify-evenly items-center shadow-custom aspect-[3/4] gap-4"
-    >
-      <h1 class="text-5xl font-black font-sora">Donate</h1>
-      <img src="Wallet_Character.svg" alt="wallet guy" class="h-3/6" />
-      <button
-        class="px-6 py-3 bg-[#FF69B4] flex justify-center items-center shadow-custom border-4 border-black rounded-[27px] text-3xl font-sora font-regular active:shadow-none"
-        >Ko-Fi</button
-      >
-    </div>
-    <div
-      class="flex flex-col w-80 h-4/6 p-8 bg-[#F8D6B3] border-black border-4 rounded-[27px] justify-evenly items-center shadow-custom aspect-[3/4] gap-4"
-    >
-      <h1 class="text-5xl font-black font-sora">Socials</h1>
-      <img src="Phone_Character.svg" alt="wallet guy" class="h-3/6" />
-      <a
-        class="px-6 py-3 bg-[#FF69B4] flex justify-center items-center shadow-custom border-4 border-black rounded-[27px] text-3xl font-sora font-regular active:shadow-none hover:shadow-none"
-        href="/linktree">Linktree</a
-      >
-    </div>
+    <StreamInfoBox info={{image:{url:"Wallet_Character.svg",alt:"Wallet Character"},link:{text:"Ko-Fi",url:"https://kofi.com/"}}}/> 
+    <StreamInfoBox info={{image:{url:"Phone_Character.svg",alt:"Phone Character"},link:{text:"Linktree",url:"/linktree"}}}/>
   </div>
   <EmptyGridSquare />
   <EmptyGridSquare />
