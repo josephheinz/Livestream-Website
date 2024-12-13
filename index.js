@@ -20,7 +20,11 @@ io.on('connection', (socket) => {
 	io.emit("viewer-update", viewers);
 
 	socket.on("message", (message) => {
-		io.emit("message", message);
+		if (message?.username !== undefined || message?.username.trim() !== "") {
+			io.emit("message", message);
+		} else {
+			console.log("asdf");
+		}
 		//console.log(message)
 	});
 

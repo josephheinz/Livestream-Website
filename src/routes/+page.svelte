@@ -28,7 +28,7 @@
 
   let socket;
   let viewers = $state(0);
-  let username = crypto.randomUUID().substring(0, 4);
+  let username = undefined;//crypto.randomUUID().substring(0, 4);
   onMount(() => {
     if (typeof window !== "undefined") {
       socket = io();
