@@ -1,5 +1,5 @@
-import { sveltekit } from '@sveltejs/kit/vite';
-import { defineConfig } from 'vite';
+import { sveltekit } from "@sveltejs/kit/vite";
+import { defineConfig } from "vite";
 import { Server } from "socket.io";
 
 export const webSocketServer = {
@@ -9,13 +9,17 @@ export const webSocketServer = {
 
     let viewers = 0;
 
-    io.on('connection', (socket) => {
+    io.on("connection", (socket) => {
       viewers++;
-      console.log('User connected', socket.id);
+      console.log("User connected", socket.id);
       io.emit("viewer-update", viewers);
 
       socket.on("message", (message) => {
-        if (message?.username !== undefined && message?.username.trim() !== "") {
+        console.log(message.username);
+        if (
+          message?.username !== undefined &&
+          message?.username.trim() !== ""
+        ) {
           io.emit("message", message);
         } else {
           console.log("Non-Empty Username required");
@@ -29,18 +33,18 @@ export const webSocketServer = {
         io.emit("viewer-update", viewers);
       });
     });
-  }
-}
+  },
+};
 
 export default defineConfig({
   plugins: [sveltekit(), webSocketServer],
   server: {
     proxy: {
-      '/api': {
-        target: 'http://localhost:5173',
+      "/api": {
+        target: "http://localhost:5173",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-      }
-    }
-  }
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
+  },
 });

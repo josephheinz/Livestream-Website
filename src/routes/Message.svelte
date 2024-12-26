@@ -14,23 +14,23 @@
   {#if message.Role == "Owner"}
     <span class="max-w-full">
       <FontAwesomeIcon icon={faCrown} class="text-md text-[#2FFF2F]" />
-      <strong>{message.Username}: </strong>
+      <strong>{message.username}: </strong>
       <span>{message.Contents}</span>
     </span>
   {:else if message.Role == "Moderator"}
     <span class="max-w-full">
       <FontAwesomeIcon icon={faShield} class="text-md text-[#7957FF]" />
-      <strong>{message.Username}: </strong>
+      <strong>{message.username}: </strong>
       <span>{message.Contents}</span>
     </span>
   {:else if message.Role == "Highlight"}
     <span class="w-full bg-[#7DF9FF] max-w-full">
-      <strong>{message.Username}: </strong>
+      <strong>{message.username}: </strong>
       <span>{message.Contents}</span>
     </span>
   {:else}
     <span class="max-w-full">
-      <strong style="color:{message.ChatColor};">{message.Username}: </strong>
+      <strong style="color:{message.ChatColor};">{message.username}: </strong>
       <span class="overflow-hidden text-wrap break-all">{message.Contents}</span>
     </span>
   {/if}

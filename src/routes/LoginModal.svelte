@@ -1,6 +1,9 @@
 <script>
   import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
   import { faX } from "@fortawesome/free-solid-svg-icons";
+
+  import { Username } from "../store";
+
   let loginModal = $state(false);
   let signUpModal = $state(false);
 
@@ -16,8 +19,16 @@
     return true;
   }
 
+  export function closeAll() {
+    loginModal = false;
+    signUpModal = false;
+    return true;
+  }
+
   let invalidCreds = $state(false);
   let passMatch = $state(false);
+  let userExists = $state(false);
+  let emailConfirm = $state(false);
 
   async function Login() {
     const emailDOM = document.getElementById("loginemail");
@@ -37,8 +48,20 @@
         console.log("Data: ", data);
         if (data?.error == "Invalid login credentials") {
           invalidCreds = true;
+          emailConfirm = false;
           emailDOM.value = "";
           passwordDOM.value = "";
+        }
+        if (data?.error == "Email not confirmed") {
+          invalidCreds = false;
+          emailConfirm = true;
+          emailDOM.value = "";
+          passwordDOM.value = "";
+        }
+        if (data.data) {
+          // accesses and sets the site logged in Username to the auth Username
+          Username.set(data.data.user.user_metadata.display_name);
+          closeAll();
         }
       })
       .catch((error) => console.error("Error:", error));
@@ -50,6 +73,7 @@
     const emailDOM = document.getElementById("signupemail");
     const passwordDOM = document.getElementById("signuppassword");
     const passwordDOM2 = document.getElementById("signuppassword2");
+    const usernameDOM = document.getElementById("signupusername");
     if (passwordDOM.value !== passwordDOM2.value) {
       passMatch = true;
       return;
@@ -62,6 +86,7 @@
       body: JSON.stringify({
         email: emailDOM.value,
         password: passwordDOM.value,
+        username: usernameDOM.value,
       }),
     })
       .then((response) => response.json())
@@ -71,9 +96,17 @@
           invalidCreds = true;
           emailDOM.value = "";
           passwordDOM.value = "";
+          usernameDOM.value = "";
         }
-        if (data.data){
+        if (data?.error == "Username already exists") {
+          userExists = true;
+          emailDOM.value = "";
+          passwordDOM.value = "";
+          usernameDOM.value = "";
+        }
+        if (data.data) {
           console.log(data.data);
+          closeAll();
         }
       })
       .catch((error) => console.error("Error:", error));
@@ -123,6 +156,9 @@
       {#if invalidCreds}
         <span class="text-red-500 font-black">Invalid Login Credentials!</span>
       {/if}
+      {#if emailConfirm}
+        <span class="text-red-500 font-black">Confirm your email!</span>
+      {/if}
       <button
         class="py-2 px-16 border-4 border-black bg-[#FF69B4] flex justify-center items-center rounded-full font-black cursor-pointer shadow-custom active:shadow-none transition-all"
         onclick={Login}
@@ -167,6 +203,19 @@
         />
       </div>
       <div class="w-full flex flex-col justify-center items-center">
+        <label for="Username" class="font-700 font-sora color-black"
+          >Username</label
+        >
+        <br />
+        <input
+          name="username"
+          type="username"
+          id="signupusername"
+          placeholder="Username"
+          class="p-1 border-4 border-black bg-gray w-5/6 shadow-custom font-sora"
+        />
+      </div>
+      <div class="w-full flex flex-col justify-center items-center">
         <label for="password" class="font-700 font-sora color-black"
           >Password</label
         >
@@ -175,7 +224,7 @@
           name="password"
           type="text"
           id="signuppassword"
-          placeholder="username@example.com"
+          placeholder="Username@example.com"
           class="p-1 border-4 border-black bg-gray w-5/6 shadow-custom font-sora"
         />
       </div>
@@ -194,6 +243,9 @@
       </div>
       {#if passMatch}
         <span class="text-red-500 font-black">Passwords don't match!</span>
+      {/if}
+      {#if userExists}
+        <span class="text-red-500 font-black">Username already exists!</span>
       {/if}
       <button
         class="py-2 px-16 border-4 border-black bg-[#FF69B4] flex justify-center items-center rounded-full font-black cursor-pointer shadow-custom active:shadow-none transition-all"

@@ -15,6 +15,14 @@
   import { faCircleUser } from "@fortawesome/free-regular-svg-icons";
   import { io } from "socket.io-client";
   import { onMount } from "svelte";
+  import { Username } from "../store";
+
+  let username = $state(null);
+
+  Username.subscribe((value) => {
+    username = value;
+    console.log(username);
+  });
 
   let loginModal;
   let chatList;
@@ -30,7 +38,7 @@
 
   let socket;
   let viewers = $state(0);
-  let username = undefined;//crypto.randomUUID().substring(0, 4);
+
   onMount(() => {
     if (typeof window !== "undefined") {
       socket = io();
@@ -56,7 +64,7 @@
   }
 
   function enterChatMessage(event) {
-    switch(event.key){
+    switch (event.key) {
       case "Enter":
         sendMessage();
     }
@@ -67,12 +75,12 @@
   function sendMessage() {
     const inputDOM = document.getElementById("chat-input");
     let message = {
-      Username: username,
+      "username": username,
       Contents: inputDOM.value,
       Role: chatRole,
       ChatColor: chatColor,
     };
-    console.log(message);
+    console.log(message, message.username);
     if (message.Contents.trim() === "") {
       throw new Error("Message contents cannot be empty");
     }
@@ -117,6 +125,7 @@
           >Sign Up</button
         >
       </div>
+      {username}
     {/if}
   </EmptyGridSquare>
   <EmptyGridSquare />
@@ -128,7 +137,7 @@
     class="relative bg-white border-b-4 border-r-4 border-black flex flex-col items-center py-4 gap-4 font-oswald"
   >
     <!--wrapper for toasts-->
-    <ChatToast/> 
+    <ChatToast />
     <div class="h-4/5 max-h-4/5 overflow-y-hidden w-full relative">
       <ul
         id="chat-list"
@@ -157,7 +166,7 @@
           onclick={sendMessage}
           class="p-2 border-4 border-black bg-[#FF69B4] aspect-square flex justify-center items-center rounded-full font-black cursor-pointer"
         >
-          <FontAwesomeIcon icon={faAngleRight} id="chat-button"/>
+          <FontAwesomeIcon icon={faAngleRight} id="chat-button" />
         </button>
       </div>
     </div>
@@ -192,8 +201,18 @@
   <div
     class="border-r-4 border-b-4 border-black flex justify-evenly items-center"
   >
-    <StreamInfoBox info={{image:{url:"Wallet_Character.svg",alt:"Wallet Character"},link:{text:"Ko-Fi",url:"https://kofi.com/"}}}/> 
-    <StreamInfoBox info={{image:{url:"Phone_Character.svg",alt:"Phone Character"},link:{text:"Linktree",url:"/linktree"}}}/>
+    <StreamInfoBox
+      info={{
+        image: { url: "Wallet_Character.svg", alt: "Wallet Character" },
+        link: { text: "Ko-Fi", url: "https://kofi.com/" },
+      }}
+    />
+    <StreamInfoBox
+      info={{
+        image: { url: "Phone_Character.svg", alt: "Phone Character" },
+        link: { text: "Linktree", url: "/linktree" },
+      }}
+    />
   </div>
   <EmptyGridSquare />
   <EmptyGridSquare />
