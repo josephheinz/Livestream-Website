@@ -38,27 +38,31 @@
   let socket;
   let viewers = $state(0);
 
-  async function getAuthenticatedUser(session) {
-    // Restore session
-    const { data: sessionData, error: sessionError } =
-      await supabase.auth.setSession({
+  async function getSession() {
+    console.log("Attempting to get session");
+    const storedSession = localStorage.getItem("supabaseSession");
+
+    if (storedSession) {
+      const session = JSON.parse(storedSession);
+      console.log("Restored session from localStorage:", session);
+
+      const { error } = await supabase.auth.setSession({
         access_token: session.access_token,
         refresh_token: session.refresh_token,
       });
 
-    if (sessionError) {
-      console.error("Failed to restore session:", sessionError.message);
-      return null;
+      const { data: userData, error: userError } =
+        await supabase.auth.getUser();
+      console.log(userData);
+
+      if (error) {
+        console.error("Error restoring session:", error.message);
+      } else {
+        console.log("Session successfully restored in Supabase client.");
+      }
+    } else {
+      console.log("No session found in localStorage.");
     }
-
-    // Fetch authenticated user
-
-    if (userError) {
-      console.error("Failed to fetch user:", userError.message);
-      return null;
-    }
-
-    return userData?.user ?? null;
   }
 
   onMount(async () => {
@@ -74,27 +78,7 @@
       socket.on("message", (message) => {
         addMessage(message);
       });
-      console.log("Attempting to get session");
-      const storedSession = localStorage.getItem("supabaseSession");
-
-      if (storedSession) {
-        const session = JSON.parse(storedSession);
-        console.log("Restored session from localStorage:", session);
-        Username.set(session.user.user_metadata.display_name);
-
-        const { error } = await supabase.auth.setSession({
-          access_token: session.access_token,
-          refresh_token: session.refresh_token,
-        });
-
-        if (error) {
-          console.error("Error restoring session:", error.message);
-        } else {
-          console.log("Session successfully restored in Supabase client.");
-        }
-      } else {
-        console.log("No session found in localStorage.");
-      }
+      getSession();
     }
   });
 
