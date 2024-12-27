@@ -33,7 +33,7 @@
   async function Login() {
     const emailDOM = document.getElementById("loginemail");
     const passwordDOM = document.getElementById("loginpassword");
-    fetch(`${window.location}/login`, {
+    fetch(`${window.location}login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -78,7 +78,7 @@
       passMatch = true;
       return;
     }
-    fetch(`${window.location}/register`, {
+    fetch(`${window.location}register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
