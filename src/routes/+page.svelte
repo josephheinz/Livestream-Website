@@ -16,6 +16,7 @@
   import { io } from "socket.io-client";
   import { onMount } from "svelte";
   import { Username } from "../store";
+  import { supabase } from "../supabase";
 
   let username = $state(null);
 
@@ -53,7 +54,7 @@
 
       const { data: userData, error: userError } =
         await supabase.auth.getUser();
-      console.log(userData);
+      Username.set(userData.user.user_metadata.display_name);
 
       if (error) {
         console.error("Error restoring session:", error.message);

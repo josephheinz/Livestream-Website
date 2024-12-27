@@ -20,7 +20,7 @@ io.on("connection", (socket) => {
   io.emit("viewer-update", viewers);
 
   socket.on("message", (message) => {
-	console.log(message.username)
+	//console.log(message.username)
     if (message?.username !== undefined || message?.username.trim() !== "") {
       io.emit("message", message);
     } else {
