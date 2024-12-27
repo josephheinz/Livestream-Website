@@ -21,7 +21,6 @@
 
   Username.subscribe((value) => {
     username = value;
-    console.log(username);
   });
 
   let loginModal;
@@ -39,10 +38,32 @@
   let socket;
   let viewers = $state(0);
 
-  onMount(() => {
+  async function getAuthenticatedUser(session) {
+    // Restore session
+    const { data: sessionData, error: sessionError } =
+      await supabase.auth.setSession({
+        access_token: session.access_token,
+        refresh_token: session.refresh_token,
+      });
+
+    if (sessionError) {
+      console.error("Failed to restore session:", sessionError.message);
+      return null;
+    }
+
+    // Fetch authenticated user
+
+    if (userError) {
+      console.error("Failed to fetch user:", userError.message);
+      return null;
+    }
+
+    return userData?.user ?? null;
+  }
+
+  onMount(async () => {
     if (typeof window !== "undefined") {
       socket = io();
-      console.log(username);
 
       socket.on("viewer-update", (view) => {
         console.log("got a viewer update");
@@ -53,6 +74,27 @@
       socket.on("message", (message) => {
         addMessage(message);
       });
+      console.log("Attempting to get session");
+      const storedSession = localStorage.getItem("supabaseSession");
+
+      if (storedSession) {
+        const session = JSON.parse(storedSession);
+        console.log("Restored session from localStorage:", session);
+        Username.set(session.user.user_metadata.display_name);
+
+        const { error } = await supabase.auth.setSession({
+          access_token: session.access_token,
+          refresh_token: session.refresh_token,
+        });
+
+        if (error) {
+          console.error("Error restoring session:", error.message);
+        } else {
+          console.log("Session successfully restored in Supabase client.");
+        }
+      } else {
+        console.log("No session found in localStorage.");
+      }
     }
   });
 
@@ -75,7 +117,7 @@
   function sendMessage() {
     const inputDOM = document.getElementById("chat-input");
     let message = {
-      "username": username,
+      username: username,
       Contents: inputDOM.value,
       Role: chatRole,
       ChatColor: chatColor,

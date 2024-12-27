@@ -1,8 +1,10 @@
 <script>
   import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
   import { faX } from "@fortawesome/free-solid-svg-icons";
-
+  import { supabase } from "../supabase";
   import { Username } from "../store";
+  import Page from "./+page.svelte";
+  import { onMount } from "svelte";
 
   let loginModal = $state(false);
   let signUpModal = $state(false);
@@ -30,41 +32,31 @@
   let userExists = $state(false);
   let emailConfirm = $state(false);
 
+  let email = "";
+  let password = "";
+
   async function Login() {
     const emailDOM = document.getElementById("loginemail");
     const passwordDOM = document.getElementById("loginpassword");
-    fetch(`${window.location}login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: emailDOM.value,
-        password: passwordDOM.value,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Data: ", data);
-        if (data?.error == "Invalid login credentials") {
-          invalidCreds = true;
-          emailConfirm = false;
-          emailDOM.value = "";
-          passwordDOM.value = "";
-        }
-        if (data?.error == "Email not confirmed") {
-          invalidCreds = false;
-          emailConfirm = true;
-          emailDOM.value = "";
-          passwordDOM.value = "";
-        }
-        if (data.data) {
-          // accesses and sets the site logged in Username to the auth Username
-          Username.set(data.data.user.user_metadata.display_name);
-          closeAll();
-        }
-      })
-      .catch((error) => console.error("Error:", error));
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      console.error("Login error:", error.message);
+      return;
+    }
+
+    if (data.session) {
+      console.log("User signed in:", data.user);
+      localStorage.setItem("supabaseSession", JSON.stringify(data.session));
+      Username.set(data.user.user_metadata.display_name);
+      closeAll();
+    } else {
+      console.error("No session returned after login");
+    }
 
     return true;
   }
@@ -138,6 +130,7 @@
           id="loginemail"
           placeholder="username@example.com"
           class="p-1 border-4 border-black bg-gray w-5/6 shadow-custom font-sora"
+          bind:value={email}
         />
       </div>
       <div class="w-full flex flex-col justify-center items-center">
@@ -151,6 +144,7 @@
           id="loginpassword"
           placeholder="username@example.com"
           class="p-1 border-4 border-black bg-gray w-5/6 shadow-custom font-sora"
+          bind:value={password}
         />
       </div>
       {#if invalidCreds}
