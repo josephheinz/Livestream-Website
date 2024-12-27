@@ -87,8 +87,6 @@
       console.log(data);
       closeAll();
     }
-
-    return true;
   }
 </script>
 
