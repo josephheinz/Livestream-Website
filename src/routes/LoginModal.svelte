@@ -70,38 +70,23 @@
       passMatch = true;
       return;
     }
-    fetch(`${window.location}register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const { data, error } = await supabase.auth.signUp({
+      email: emailDOM.value,
+      password: passwordDOM.value,
+      options: {
+        data: {
+          display_name: usernameDOM.value,
+        },
       },
-      body: JSON.stringify({
-        email: emailDOM.value,
-        password: passwordDOM.value,
-        username: usernameDOM.value,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Data: ", data);
-        if (data?.error == "Invalid login credentials") {
-          invalidCreds = true;
-          emailDOM.value = "";
-          passwordDOM.value = "";
-          usernameDOM.value = "";
-        }
-        if (data?.error == "Username already exists") {
-          userExists = true;
-          emailDOM.value = "";
-          passwordDOM.value = "";
-          usernameDOM.value = "";
-        }
-        if (data.data) {
-          console.log(data.data);
-          closeAll();
-        }
-      })
-      .catch((error) => console.error("Error:", error));
+    });
+    console.log("Data: ", data);
+    if (error) {
+      console.error("Sign up error:", error.message);
+    }
+    if (data) {
+      console.log(data);
+      closeAll();
+    }
 
     return true;
   }
