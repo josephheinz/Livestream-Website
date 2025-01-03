@@ -234,7 +234,7 @@
     <StreamInfoBox
       info={{
         image: { url: "Wallet_Character.svg", alt: "Wallet Character" },
-        link: { text: "Ko-Fi", url: "https://kofi.com/" },
+        link: { text: "Ko-Fi", url: "https://ko-fi.com/josephheinz" },
       }}
     />
     <StreamInfoBox
