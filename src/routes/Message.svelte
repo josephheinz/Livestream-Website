@@ -13,7 +13,7 @@
 <li
   class="my-1 px-2 flex gap-2 flex-shrink-0 items-start w-full overflow-hidden break-all"
 >
-  {#if message.Role == "supabase_admin"}
+  {#if message.Role == "admin"}
     <span class="max-w-full">
       <FontAwesomeIcon icon={faCrown} class="text-md text-[#2FFF2F]" />
       <strong>{message.username}: </strong>

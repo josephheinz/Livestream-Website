@@ -28,7 +28,7 @@
   let loginModal;
   let chatList;
 
-  let chatRole = "Viewer";
+  let chatRole = $state("Viewer");
 
   let messages = $state([]);
   function addMessage(message) {
@@ -58,7 +58,17 @@
       const { data: userData, error: userError } =
         await supabase.auth.getUser();
       Username.set(userData.user.user_metadata.display_name);
-      chatRole = userData.user.user_metadata?.role || "Viewer";
+      const userId = userData.user.id;
+      console.log(userId);
+      chatRole = "Viewer";
+      const { data: roles, error: roleError } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", userId)
+        .single();
+      if (roleError) throw roleError;
+
+      chatRole = roles?.role || "Viewer";
 
       if (error) {
         console.error("Error restoring session:", error.message);
