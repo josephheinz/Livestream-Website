@@ -20,13 +20,11 @@ io.on("connection", (socket) => {
   io.emit("viewer-update", viewers);
 
   socket.on("message", (message) => {
-	//console.log(message.username)
     if (message?.username !== undefined || message?.username.trim() !== "") {
       io.emit("message", message);
     } else {
       console.log("Non-Empty Username required");
     }
-    //console.log(message)
   });
 
   socket.on("disconnect", () => {
@@ -38,46 +36,6 @@ io.on("connection", (socket) => {
 
 app.use(cors());
 app.use(bodyParser.json());
-
-app.post("/register", async (req, res) => {
-  const { email, password, username } = req.body;
-
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      data: {
-        display_name: username,
-      },
-    },
-  });
-
-  if (error) return res.status(400).json({ error: error.message });
-  res.json({ message: "User registered successfully", data });
-});
-
-app.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
-
-  if (error) return res.status(400).json({ error: error.message });
-  res.json({ message: "User logged in successfully", data });
-});
-
-app.get("/user", async (req, res) => {
-  const token = req.headers.authorization?.split(" ")[1];
-  if (!token)
-    return res.status(401).json({ error: "Authorization token is missing" });
-
-  const { data, error } = await supabase.auth.getUser(token);
-
-  if (error) return res.status(400).json({ error: error.message });
-  res.json({ message: "User details fetched", data });
-});
 
 app.use(
   "/hls",

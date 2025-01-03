@@ -6,6 +6,7 @@
   import LoginModal from "./LoginModal.svelte";
   import ChatToast from "./ChatToast.svelte";
   import StreamInfoBox from "./StreamInfoBox.svelte";
+  import Livestream from "./Livestream.svelte";
   import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
   import {
     faShield,
@@ -26,6 +27,8 @@
 
   let loginModal;
   let chatList;
+
+  let chatRole = "Viewer";
 
   let messages = $state([]);
   function addMessage(message) {
@@ -55,6 +58,7 @@
       const { data: userData, error: userError } =
         await supabase.auth.getUser();
       Username.set(userData.user.user_metadata.display_name);
+      chatRole = userData.user.user_metadata?.role || "Viewer";
 
       if (error) {
         console.error("Error restoring session:", error.message);
@@ -98,7 +102,7 @@
   }
 
   const chatColor = `rgb(${Math.round(Math.random() * 255)},${Math.round(Math.random() * 255)},${Math.round(Math.random() * 255)})`;
-  const chatRole = "Viewer";
+
   function sendMessage() {
     const inputDOM = document.getElementById("chat-input");
     let message = {
@@ -204,8 +208,7 @@
     class="border-r-4 border-b-4 border-black p-4 flex items-start justify-between h-full"
   >
     <div class="flex flex-col justify-evenly items-start grow h-full">
-      <h1 class="font-sora text-5xl font-black">Title</h1>
-      <h2 class="font-sora text-3xl font-light">Subtitle</h2>
+      <Livestream />
     </div>
     <div class="flex flex-col gap-2 justify-evenly items-center">
       <SubscribeButton />

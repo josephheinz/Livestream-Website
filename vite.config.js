@@ -15,7 +15,6 @@ export const webSocketServer = {
       io.emit("viewer-update", viewers);
 
       socket.on("message", (message) => {
-        console.log(message.username);
         if (
           message?.username !== undefined &&
           message?.username.trim() !== ""
@@ -24,7 +23,6 @@ export const webSocketServer = {
         } else {
           console.log("Non-Empty Username required");
         }
-        //console.log(message)
       });
 
       socket.on("disconnecting", () => {
