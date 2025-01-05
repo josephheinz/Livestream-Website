@@ -138,18 +138,23 @@
 
 <title>JosephHeinz.live</title>
 <main
-  class="bg-[#FADF0B] w-screen grid h-screen grid-cols-custom grid-rows-custom overflow-y-scroll overflow-x-hidden"
+  class="bg-[#FADF0B] w-screen h-screen grid overflow-y-scroll overflow-x-hidden
+   sm:grid-cols-custom sm:grid-rows-custom"
 >
   <EmptyGridSquare />
   <!--Title bar-->
   <div
-    class="border-b-4 border-r-4 border-black flex items-center justify-left p-4"
+    class="border-b-4 border-r-4 border-black flex items-center justify-left p-4 order-1
+    sm:col-start-2 sm:row-start-1"
   >
-    <h1 class="text-5xl font-black font-sora">JosephHeinz.live</h1>
+    <h1 class="sm:text-5xl text-4xl font-black font-sora text-center">
+      JosephHeinz.live
+    </h1>
   </div>
-  <EmptyGridSquare>
+  <EmptyGridSquare positionClasses="order-5 sm:col-start-3 sm:row-start-1">
     {#if username}
-      <div class="w-full h-full flex justify-end items-start p-4 gap-2">
+      <div class="w-full h-full flex justify-end items-start p-4 gap-2 border-b-4 border-black
+      sm:border-none">
         <span class="text-md font-700 font-sora text-right">
           {username}
           <br />
@@ -171,15 +176,19 @@
   </EmptyGridSquare>
   <EmptyGridSquare />
   <EmptyGridSquare />
-  <EmptyGridSquare>
+  <EmptyGridSquare positionClasses="order-2 sm:col-start-2 sm:row-start-2">
     <VideoPlayer />
   </EmptyGridSquare>
   <div
-    class="relative bg-white border-b-4 border-r-4 border-black flex flex-col items-center py-4 gap-4 font-oswald"
+    class="relative bg-white border-b-4 border-r-4 border-black flex flex-col items-center py-4 gap-4 font-oswald order-4
+    sm:order-0 sm:col-start-3 sm:row-start-2"
   >
     <!--wrapper for toasts-->
     <ChatToast />
-    <div class="h-4/5 max-h-4/5 overflow-y-hidden w-full relative">
+    <div
+      class="overflow-y-hidden w-screen h-[200px] relative
+      sm:h-4/5 sm:max-h-4/5 sm:w-full"
+    >
       <ul
         id="chat-list"
         class="absolute bottom-0 flex flex-col items-end w-full h-full overflow-y-scroll"
@@ -215,15 +224,21 @@
   <EmptyGridSquare />
   <EmptyGridSquare />
   <div
-    class="border-r-4 border-b-4 border-black p-4 flex items-start justify-between h-full"
+    class="border-r-4 border-b-4 border-black p-4 flex flex-col items-start justify-start gap-2 order-3
+    sm:justify-between sm:h-full sm:col-start-2 sm:row-start-3 sm:flex-row"
   >
-    <div class="flex flex-col justify-evenly items-start grow h-full">
+    <div
+      class="flex flex-col items-start grow
+      sm:h-full sm:justify-evenly"
+    >
       <Livestream />
     </div>
-    <div class="flex flex-col gap-2 justify-evenly items-center">
+    <div class="flex flex-row w-full gap-4 justify-start items-center
+    sm:flex-col sm:w-fit">
       <SubscribeButton />
       <span
-        class="flex gap-2 w-full mx-auto my-4 justify-center items-center h-full"
+        class="flex gap-2 my-4 justify-center items-center h-full
+        sm:mx-auto sm:w-full"
       >
         <FontAwesomeIcon icon={faCircleUser} class="text-xl" />
         <span>
@@ -239,7 +254,8 @@
   <EmptyGridSquare />
   <EmptyGridSquare />
   <div
-    class="border-r-4 border-b-4 border-black flex justify-evenly items-center"
+    class="border-r-4 border-b-4 border-black flex flex-col items-center gap-8 p-4 order-6
+    sm:gap-0 sm:justify-evenly sm:flex-row sm:col-start-2 sm:row-start-4"
   >
     <StreamInfoBox
       info={{
