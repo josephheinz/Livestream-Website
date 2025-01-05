@@ -7,7 +7,7 @@
   import { onMount } from "svelte";
 
   let loginModal = $state(false);
-  let signUpModal = $state(true);
+  let signUpModal = $state(false);
 
   export function openLoginModal() {
     loginModal = true;
