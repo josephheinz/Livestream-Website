@@ -153,8 +153,10 @@
   </div>
   <EmptyGridSquare positionClasses="order-5 sm:col-start-3 sm:row-start-1">
     {#if username}
-      <div class="w-full h-full flex justify-end items-start p-4 gap-2 border-b-4 border-black
-      sm:border-none">
+      <div
+        class="w-full h-full flex justify-end items-start p-4 gap-2 border-b-4 border-black
+      sm:border-none"
+      >
         <span class="text-md font-700 font-sora text-right">
           {username}
           <br />
@@ -163,7 +165,10 @@
         <FontAwesomeIcon icon={faCircleUser} class="text-5xl" />
       </div>
     {:else}
-      <div class="w-full h-3/6 flex justify-left items-start py-2 px-4 gap-4">
+      <div
+        class="w-full h-3/6 flex justify-left items-start py-2 px-4 gap-4 border-b-4 border-black
+      sm:border-none"
+      >
         <button class="underline" onclick={loginModal.openLoginModal}
           >Login</button
         >
@@ -233,8 +238,10 @@
     >
       <Livestream />
     </div>
-    <div class="flex flex-row w-full gap-4 justify-start items-center
-    sm:flex-col sm:w-fit">
+    <div
+      class="flex flex-row w-full gap-4 justify-start items-center
+    sm:flex-col sm:w-fit"
+    >
       <SubscribeButton />
       <span
         class="flex gap-2 my-4 justify-center items-center h-full
