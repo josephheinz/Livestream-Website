@@ -154,7 +154,7 @@
   <EmptyGridSquare positionClasses="order-5 sm:col-start-3 sm:row-start-1">
     {#if username}
       <div
-        class="w-full h-full flex justify-end items-start p-4 gap-2 border-b-4 border-black
+        class="w-full h-fit flex justify-end items-start p-4 gap-2 border-b-4 border-black
       sm:border-none"
       >
         <span class="text-md font-700 font-sora text-right">
@@ -166,7 +166,7 @@
       </div>
     {:else}
       <div
-        class="w-full h-3/6 flex justify-left items-start py-2 px-4 gap-4 border-b-4 border-black
+        class="w-full h-fit flex justify-left items-start py-2 px-4 gap-4 border-b-4 border-black
       sm:border-none"
       >
         <button class="underline" onclick={loginModal.openLoginModal}

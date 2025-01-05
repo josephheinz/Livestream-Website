@@ -7,7 +7,7 @@
   import { onMount } from "svelte";
 
   let loginModal = $state(false);
-  let signUpModal = $state(false);
+  let signUpModal = $state(true);
 
   export function openLoginModal() {
     loginModal = true;
@@ -95,7 +95,8 @@
     class="fixed w-screen h-screen top-0 left-0 bg-[rgb(56,56,56,0.75)] z-50 flex justify-center items-center"
   >
     <div
-      class="relative w-1/4 h-3/6 bg-[#F8D6B3] border-black border-4 shadow-custom flex flex-col justify-evenly items-center gap-4 px-12 py-8"
+      class="relative w-11/12 bg-[#F8D6B3] border-black border-4 shadow-custom flex flex-col justify-evenly items-center gap-4 px-12 py-8
+      sm:w-1/4 sm:h-3/6"
     >
       <button onclick={(loginModal = false)}>
         <FontAwesomeIcon
@@ -112,7 +113,8 @@
           type="Email"
           id="loginemail"
           placeholder="username@example.com"
-          class="p-1 border-4 border-black bg-gray w-5/6 shadow-custom font-sora"
+          class="p-1 border-4 border-black bg-gray shadow-custom font-sora
+          sm:w-5/6"
           bind:value={email}
         />
       </div>
@@ -126,7 +128,8 @@
           type="text"
           id="loginpassword"
           placeholder="username@example.com"
-          class="p-1 border-4 border-black bg-gray w-5/6 shadow-custom font-sora"
+          class="p-1 border-4 border-black bg-gray shadow-custom font-sora
+          sm:w-5/6"
           bind:value={password}
         />
       </div>
@@ -159,7 +162,8 @@
     class="fixed w-screen h-screen top-0 left-0 bg-[rgb(56,56,56,0.75)] z-50 flex justify-center items-center"
   >
     <div
-      class="relative w-1/4 h-4/6 bg-[#F8D6B3] border-black border-4 shadow-custom flex flex-col justify-evenly items-center gap-4 px-12 py-8"
+      class="relative w-11/12 bg-[#F8D6B3] border-black border-4 shadow-custom flex flex-col justify-evenly items-center gap-4 px-12 py-8
+      sm:w-1/4 sm:h-4/6"
     >
       <button onclick={(signUpModal = false)}>
         <FontAwesomeIcon
@@ -176,7 +180,8 @@
           type="Email"
           id="signupemail"
           placeholder="username@example.com"
-          class="p-1 border-4 border-black bg-gray w-5/6 shadow-custom font-sora"
+          class="p-1 border-4 border-black bg-gray shadow-custom font-sora
+          sm:w-5/6"
         />
       </div>
       <div class="w-full flex flex-col justify-center items-center">
@@ -189,7 +194,8 @@
           type="username"
           id="signupusername"
           placeholder="Username"
-          class="p-1 border-4 border-black bg-gray w-5/6 shadow-custom font-sora"
+          class="p-1 border-4 border-black bg-gray shadow-custom font-sora
+          sm:w-5/6"
         />
       </div>
       <div class="w-full flex flex-col justify-center items-center">
@@ -199,10 +205,11 @@
         <br />
         <input
           name="password"
-          type="text"
+          type="password"
           id="signuppassword"
-          placeholder="Username@example.com"
-          class="p-1 border-4 border-black bg-gray w-5/6 shadow-custom font-sora"
+          placeholder="securepassword123"
+          class="p-1 border-4 border-black bg-gray shadow-custom font-sora
+          sm:w-5/6"
         />
       </div>
       <div class="w-full flex flex-col justify-center items-center">
@@ -212,10 +219,11 @@
         <br />
         <input
           name="password"
-          type="text"
+          type="password"
           id="signuppassword2"
-          placeholder="username@example.com"
-          class="p-1 border-4 border-black bg-gray w-5/6 shadow-custom font-sora"
+          placeholder="securepassword123"
+          class="p-1 border-4 border-black bg-gray shadow-custom font-sora
+          sm:w-5/6"
         />
       </div>
       {#if passMatch}
@@ -224,6 +232,10 @@
       {#if userExists}
         <span class="text-red-500 font-black">Username already exists!</span>
       {/if}
+      <span class="text-xs"
+        >Passwords must contain at least 8 characters, a lower and uppercase
+        letter, a number, and at least one special character ( !&%? )</span
+      >
       <button
         class="py-2 px-16 border-4 border-black bg-[#FF69B4] flex justify-center items-center rounded-full font-black cursor-pointer shadow-custom active:shadow-none transition-all"
         onclick={SignUp}
