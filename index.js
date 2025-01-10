@@ -69,7 +69,6 @@ io.on("connection", (socket) => {
 
   // Handle incoming messages
   socket.on("message", (message) => {
-    if (bannedUser) return;
     if (message?.username !== undefined && message?.username.trim() !== "") {
       io.emit("message", message);
     } else {
