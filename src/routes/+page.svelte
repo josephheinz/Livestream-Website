@@ -86,7 +86,7 @@
       await getSession();
 
       // Connect to the WebSocket server with userId passed in query params
-      socket = io("http://localhost:2541", {
+      socket = io(`${window.location}`, {
         query: { userId: (await supabase.auth.getUser()).data.user.id }, // Send userId to server as query param
       });
 
