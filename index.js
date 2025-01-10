@@ -32,14 +32,14 @@ io.on("connection", (socket) => {
     .select("reason, banned_at, expires_at, banned_by")
     .eq("user_id", userId)
     .single()
-    .then(({ data: bannedUser, error }) => {
-      if (bannedUser) {
+    .then(({ data, error }) => {
+      if (data) {
         console.log(data)
         socket.emit("banned", {
-          reason: bannedUser.reason,
-          banned_at: bannedUser.banned_at,
-          expires_at: bannedUser.expires_at,
-          banned_by: bannedUser.banned_by
+          reason: data.reason,
+          banned_at: data.banned_at,
+          expires_at: data.expires_at,
+          banned_by: data.banned_by
         });
         socket.disconnect(true);
       } else {
@@ -79,9 +79,7 @@ io.on("connection", (socket) => {
 
       if (bannedUser) {
         console.log(`User ${userId} is banned. Message blocked.`);
-        // Emit a "banned" message to the client if needed
-        socket.emit("banned", { message: "You are banned from sending messages." });
-        return;  // Prevent the message from being broadcasted
+        return;
       }
 
       if (message?.username !== undefined && message?.username.trim() !== "") {
