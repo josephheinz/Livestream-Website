@@ -59,7 +59,6 @@ io.on("connection", (socket) => {
     })
     .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'banned_users' }, (payload) => {
       console.log('User removed from banned_users:', payload.old);
-      bannedUser = null;
       socket.emit('unbanned', payload.new); // Emit the unbanned user data
     })
     .subscribe();
