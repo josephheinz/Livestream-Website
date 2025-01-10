@@ -105,7 +105,7 @@
         if (bannedChat) {
           bannedChat.set({
             banned: false,
-            reason: null,
+            reason: "",
             expires_at: null,
             banned_by: null,
           });

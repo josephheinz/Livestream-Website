@@ -31,14 +31,14 @@ io.on("connection", (socket) => {
     .select("reason, banned_at, expires_at, banned_by")
     .eq("user_id", userId)
     .single()
-    .then(({ data, error }) => {
-      if (data) {
+    .then(({ data: bannedUser, error }) => {
+      if (bannedUser) {
         console.log(data)
         socket.emit("banned", {
-          reason: data.reason,
-          banned_at: data.banned_at,
-          expires_at: data.expires_at,
-          banned_by: data.banned_by
+          reason: bannedUser.reason,
+          banned_at: bannedUser.banned_at,
+          expires_at: bannedUser.expires_at,
+          banned_by: bannedUser.banned_by
         });
         socket.disconnect(true);
       } else {
@@ -68,6 +68,7 @@ io.on("connection", (socket) => {
 
   // Handle incoming messages
   socket.on("message", (message) => {
+    if (bannedUser) return;
     if (message?.username !== undefined && message?.username.trim() !== "") {
       io.emit("message", message);
     } else {

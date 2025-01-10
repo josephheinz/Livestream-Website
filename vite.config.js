@@ -1,6 +1,7 @@
 import { sveltekit } from "@sveltejs/kit/vite";
 import { defineConfig } from "vite";
 import { Server } from "socket.io";
+import { supabase } from "./src/supabase";
 
 export const webSocketServer = {
   name: "webSocketServer",
@@ -62,6 +63,7 @@ export const webSocketServer = {
 
       // Handle incoming messages
       socket.on("message", (message) => {
+        if (bannedUser) return;
         if (message?.username !== undefined && message?.username.trim() !== "") {
           io.emit("message", message);
         } else {
