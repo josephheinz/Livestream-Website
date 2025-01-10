@@ -30,10 +30,10 @@ export const webSocketServer = {
           if (data) {
             console.log(data)
             socket.emit("banned", {
-              reason,
-              banned_at,
-              expires_at,
-              banned_by
+              reason: data.reason,
+              banned_at: data.banned_at,
+              expires_at: data.expires_at,
+              banned_by: data.banned_by
             });
             socket.disconnect(true);
           } else {
@@ -44,6 +44,18 @@ export const webSocketServer = {
           console.error("Error checking banned users", err);
           socket.disconnect(true);
         });
+
+      supabase
+        .channel('banned_users_channel')
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'banned_users' }, (payload) => {
+          console.log('User added to banned_users:', payload.new);
+          socket.emit('banned', payload.new); // Emit the new banned user data
+        })
+        .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'banned_users' }, (payload) => {
+          console.log('User removed from banned_users:', payload.old);
+          socket.emit('unbanned', payload.old); // Emit the unbanned user data
+        })
+        .subscribe();
 
       viewers++;
       io.emit("viewer-update", viewers);
