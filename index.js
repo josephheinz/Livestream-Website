@@ -41,14 +41,12 @@ io.on("connection", (socket) => {
           expires_at: data.expires_at,
           banned_by: data.banned_by
         });
-        socket.disconnect(true);
       } else {
         console.log(`User ${userId} connected.`);
       }
     })
     .catch((err) => {
       console.error("Error checking banned users", err);
-      socket.disconnect(true);
     });
 
   supabase
