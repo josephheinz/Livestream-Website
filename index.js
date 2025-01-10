@@ -7,6 +7,7 @@ import { handler } from "./build/handler.js";
 import { fileURLToPath } from "url";
 import supabase from "./supabase.js";
 import bodyParser from "body-parser";
+import { bannedChat } from "./src/store.js";
 
 const app = express();
 const httpServer = createServer(app);
@@ -58,6 +59,7 @@ io.on("connection", (socket) => {
     })
     .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'banned_users' }, (payload) => {
       console.log('User removed from banned_users:', payload.old);
+      bannedUser = null;
       socket.emit('unbanned', payload.new); // Emit the unbanned user data
     })
     .subscribe();
