@@ -68,11 +68,30 @@ io.on("connection", (socket) => {
   io.emit("viewer-update", viewers);
 
   // Handle incoming messages
-  socket.on("message", (message) => {
-    if (message?.username !== undefined && message?.username.trim() !== "") {
-      io.emit("message", message);
-    } else {
-      console.log("Non-Empty Username required");
+  socket.on("message", async (message) => {
+    try {
+      // Check if the user is banned from sending messages
+      const { data: bannedUser } = await supabase
+        .from("banned_users")
+        .select("user_id")
+        .eq("user_id", userId)
+        .single();
+
+      if (bannedUser) {
+        console.log(`User ${userId} is banned. Message blocked.`);
+        // Emit a "banned" message to the client if needed
+        socket.emit("banned", { message: "You are banned from sending messages." });
+        return;  // Prevent the message from being broadcasted
+      }
+
+      if (message?.username !== undefined && message?.username.trim() !== "") {
+        io.emit("message", message);
+      } else {
+        console.log("Non-Empty Username required");
+      }
+
+    } catch (error) {
+      console.error("Error checking ban status:", error);
     }
   });
 
