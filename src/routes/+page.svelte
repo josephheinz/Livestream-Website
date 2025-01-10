@@ -7,6 +7,7 @@
   import ChatToast from "./ChatToast.svelte";
   import StreamInfoBox from "./StreamInfoBox.svelte";
   import Livestream from "./Livestream.svelte";
+  import BannedChat from "./BannedChat.svelte";
   import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
   import {
     faShield,
@@ -14,9 +15,11 @@
     faAngleRight,
   } from "@fortawesome/free-solid-svg-icons";
   import { faCircleUser } from "@fortawesome/free-regular-svg-icons";
-  import { io } from "socket.io-client";
+
   import { onMount } from "svelte";
+  import { io } from "socket.io-client";
   import { Username } from "../store";
+  import { bannedChat } from "../store";
   import { supabase } from "../supabase";
 
   let username = $state(null);
@@ -57,24 +60,22 @@
 
       const { data: userData, error: userError } =
         await supabase.auth.getUser();
+      if (userError) throw userError;
+
+      // Sets the username to the display name of the fetched user
       Username.set(userData.user.user_metadata.display_name);
       const userId = userData.user.id;
       console.log(userId);
-      chatRole = "Viewer";
+
       const { data: roles, error: roleError } = await supabase
         .from("user_roles")
         .select("role")
         .eq("user_id", userId)
         .single();
+
       if (roleError) throw roleError;
 
       chatRole = roles?.role || "Viewer";
-
-      if (error) {
-        console.error("Error restoring session:", error.message);
-      } else {
-        console.log("Session successfully restored in Supabase client.");
-      }
     } else {
       console.log("No session found in localStorage.");
     }
@@ -82,7 +83,34 @@
 
   onMount(async () => {
     if (typeof window !== "undefined") {
-      socket = io();
+      await getSession();
+
+      // Connect to the WebSocket server with userId passed in query params
+      socket = io("http://localhost:2541", {
+        query: { userId: (await supabase.auth.getUser()).data.user.id }, // Send userId to server as query param
+      });
+
+      socket.on("banned", (packet) => {
+        if (bannedChat) {
+          bannedChat.set({
+            banned: true,
+            reason: packet.reason,
+            expires_at: packet.expires_at,
+            banned_by: packet.banned_by,
+          });
+        }
+      });
+
+      socket.on("unbanned", (packet) => {
+        if (bannedChat) {
+          bannedChat.set({
+            banned: false,
+            reason: null,
+            expires_at: null,
+            banned_by: null,
+          });
+        }
+      });
 
       socket.on("viewer-update", (view) => {
         console.log("got a viewer update");
@@ -93,7 +121,6 @@
       socket.on("message", (message) => {
         addMessage(message);
       });
-      getSession();
     }
   });
 
@@ -121,7 +148,6 @@
       Role: chatRole,
       ChatColor: chatColor,
     };
-    console.log(message, message.username);
     if (message.Contents.trim() === "") {
       throw new Error("Message contents cannot be empty");
     }
@@ -188,6 +214,7 @@
     class="relative bg-white border-b-4 border-r-4 border-black flex flex-col items-center py-4 gap-4 font-oswald order-4
     sm:order-0 sm:col-start-3 sm:row-start-2"
   >
+    <BannedChat {bannedChat} />
     <!--wrapper for toasts-->
     <ChatToast />
     <div

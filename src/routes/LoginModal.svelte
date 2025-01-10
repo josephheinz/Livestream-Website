@@ -125,7 +125,7 @@
         <br />
         <input
           name="password"
-          type="text"
+          type="password"
           id="loginpassword"
           placeholder="username@example.com"
           class="p-1 border-4 border-black bg-gray shadow-custom font-sora
@@ -163,7 +163,7 @@
   >
     <div
       class="relative w-11/12 bg-[#F8D6B3] border-black border-4 shadow-custom flex flex-col justify-evenly items-center gap-4 px-12 py-8
-      sm:w-1/4 sm:h-4/6"
+      sm:w-1/4 sm:h-5/6"
     >
       <button onclick={(signUpModal = false)}>
         <FontAwesomeIcon
@@ -193,6 +193,7 @@
           name="username"
           type="username"
           id="signupusername"
+          maxlength="16"
           placeholder="Username"
           class="p-1 border-4 border-black bg-gray shadow-custom font-sora
           sm:w-5/6"
