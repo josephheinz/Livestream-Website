@@ -22,9 +22,14 @@ const io = new SocketIOServer(httpServer, {
 });
 
 let viewers = 0;
+const userSockets = new Map();
 
 io.on("connection", (socket) => {
   const userId = socket.handshake.query.userId;
+
+  if(userId){
+    userSockets.set(userId, socket.id);
+  }
 
   // Check if the user is banned
   supabase
@@ -53,11 +58,25 @@ io.on("connection", (socket) => {
     .channel('banned_users_channel')
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'banned_users' }, (payload) => {
       console.log('User added to banned_users:', payload.new);
-      socket.emit('banned', payload.new); // Emit the new banned user data
+      const bannedUserId = payload.new.user_id;
+      const bannedSocketId = userSockets.get(bannedUserId);
+
+      if(bannedSocketId){
+        io.to(bannedSocketId).emit("banned", payload.new);
+        console.log(`User ${bannedUserId} banned and notified.`);
+      } 
+      //socket.emit('banned', payload.new); // Emit the new banned user data
     })
     .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'banned_users' }, (payload) => {
       console.log('User removed from banned_users:', payload.old);
-      socket.emit('unbanned', payload.new); // Emit the unbanned user data
+      const unbannedUserId = payload.new.user_id;
+      const unbannedSocketId = userSockets.get(unbannedUserId);
+
+      if(unbannedSocketId){
+        io.to(unbannedSocketId).emit("unbanned", payload.new);
+        console.log(`User ${unbannedUserId} banned and notified.`);
+      }
+      //socket.emit('unbanned', payload.new); // Emit the unbanned user data
     })
     .subscribe();
 

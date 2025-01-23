@@ -8,7 +8,7 @@
   <div
     class="w-full h-full absolute z-10 top-0 left-0 flex flex-col justify-center items-center gap-4 bg-orange-200"
   >
-    <img src="Bomb_Character.svg" alt="Bomb guy" class="w-3/4" />
+    <img src="Bomb_Character.svg" alt="Bomb guy" class="w-2/4" />
     <h1 class="text-3xl">You are banned</h1>
     <span>You have been banned from chat</span>
     <span>For <b>{$bannedChat.reason}</b></span>
